@@ -1,4 +1,7 @@
 export type TaskModel = {
-    id: number
+    id: string
+    isDone: boolean
     message: string
+    createdAt: string
+    updatedAt: string
 }

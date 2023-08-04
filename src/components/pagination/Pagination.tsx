@@ -8,7 +8,9 @@ const Pagination = (props: any) => {
 
     return <div>
         <ul className='pagination'>
-        <li onClick={() => {props.onPageChanged(props.currentPage-1)}} className={`${props.currentPage<= 1 ? 'disabled' : 'waves-effect'}`}><a href="#!"><i className="material-icons">chevron_left</i></a></li>
+        <li onClick={() => {props.onPageChanged(props.currentPage-1)}} 
+        className={`${props.currentPage<= 1 ? 'disabled' : 'waves-effect'}`}>
+            <a href="#!"><i className="material-icons">chevron_left</i></a></li>
         {
         pagesCount.map((p)=> {
            
@@ -19,7 +21,8 @@ const Pagination = (props: any) => {
         }
 
 
-        <li onClick={() => {props.onPageChanged(props.currentPage+1)}} className={`${props.currentPage===pagesCount.length ? 'disabled' : 'waves-effect'}`}><a href="#!"><i className="material-icons">chevron_right</i></a></li>
+        <li onClick={() => {props.onPageChanged(props.currentPage+1)}} className={`${props.currentPage===pagesCount.length ? 'disabled' : 'waves-effect'}`}>
+            <a href="#!"><i className="material-icons">chevron_right</i></a></li>
         </ul>
     </div>
 }

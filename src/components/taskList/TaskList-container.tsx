@@ -2,11 +2,12 @@ import TaskList from "./TaskList"
 import React from "react"
 import { connect } from "react-redux"
 import { getTasks } from "../../react-redux/tasks-reducer"
-import { setCurrentPage } from "../../react-redux/tasks-reducer"
+import { setCurrentPage, updateTaskText, addNewTask, removeTask } from "../../react-redux/tasks-reducer"
 const { useEffect, useState } = React
 
 const TaskListContainer = (props: any) => { 
     useEffect (() => {
+       
         props.getTasks(props.currentPage,props.pageSize)
     },[])
     const onPageChanged = (pageNumber: number) => {
@@ -17,7 +18,9 @@ const TaskListContainer = (props: any) => {
     
     return <TaskList tasks={props.tasks} pageSize={props.pageSize} 
     currentPage={props.currentPage} total={props.total}
-    onPageChanged={onPageChanged} setCurrentPage={props.setCurrentPage} />
+    onPageChanged={onPageChanged} newTaskText={props.newTaskText}
+    updateTaskText={props.updateTaskText} addNewTask={props.addNewTask} 
+    removeTask={props.removeTask} />
 }
 
 const mapStateToProps = (store: any) => {
@@ -26,8 +29,9 @@ return {
     currentPage: store.tasksPage.currentPage,
     pageSize: store.tasksPage.pageSize,
     tasks: store.tasksPage.tasks,
-    total: store.tasksPage.total
+    total: store.tasksPage.total,
+    newTaskText: store.tasksPage.newTaskText
 }
 }
 
-export default connect(mapStateToProps, {getTasks,setCurrentPage})(TaskListContainer) 
+export default connect(mapStateToProps, {getTasks,setCurrentPage, updateTaskText, addNewTask, removeTask})(TaskListContainer) 
