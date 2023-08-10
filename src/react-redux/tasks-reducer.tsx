@@ -4,55 +4,52 @@ import {
   removeTaskAPI,
 } from "../components/api/api";
 import { TaskModel } from "../types/task.model";
+import { DefaultInitState, TasksActionTypes,TasksAction } from "../types/taskreducerTypes";
 
-const GET_TASKS = "GET_TASKS";
-const SET_TOTAL = "SET_TOTAL";
-const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
-const UPDATE_TEXT = "UPDATE_TEXT";
-const ADD_NEW_TASK = "ADD_NEW_TASK";
-const REMOVE_TASK = "REMOVE_TASK";
 
-const DEFAULT_INIT_STATE = {
-  tasks: null,
+
+const DEFAULT_INIT_STATE: DefaultInitState = {
+  tasks: [],
   currentPage: 1,
   pageSize: 10,
   loading: false,
-  total: null,
-  newTaskText: "",
+  total: 0,
+  newTaskText: ""
 };
 
-const tasksReducer = (state: any = DEFAULT_INIT_STATE, action: any) => {
+
+const tasksReducer = (state: DefaultInitState = DEFAULT_INIT_STATE, action: TasksAction): DefaultInitState => {
   switch (action.type) {
-    case GET_TASKS:
+    case TasksActionTypes.GET_TASKS:
       return {
         ...state,
-        tasks: action.tasks,
+        tasks: action.payload,
       };
-    case SET_TOTAL:
+    case TasksActionTypes.SET_TOTAL:
       return {
         ...state,
-        total: action.total,
+        total: action.payload,
       };
-    case SET_CURRENT_PAGE:
+    case TasksActionTypes.SET_CURRENT_PAGE:
       return {
         ...state,
-        currentPage: action.currentPage,
+        currentPage: action.payload,
       };
-    case UPDATE_TEXT:
+    case TasksActionTypes.UPDATE_TEXT:
       return {
         ...state,
-        newTaskText: action.text,
+        newTaskText: action.payload,
       };
-    case ADD_NEW_TASK:
+    case TasksActionTypes.ADD_NEW_TASK:
       return {
         ...state,
-        tasks: [...state.tasks, action.task],
+        tasks: [...state.tasks, action.payload],
         newTaskText: "",
       };
-    case REMOVE_TASK:
+    case TasksActionTypes.REMOVE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter((t: any) => t.id !== action.taskId),
+        tasks: state.tasks.filter((t: any) => t.id !== action.payload),
       };
 
     default:
@@ -60,15 +57,18 @@ const tasksReducer = (state: any = DEFAULT_INIT_STATE, action: any) => {
   }
 };
 
-const getTasksAC = (tasks: TaskModel[]) => ({ type: GET_TASKS, tasks });
-const setTotalAC = (total: number) => ({ type: SET_TOTAL, total });
+const getTasksAC = (tasks: TaskModel[]) => ({ type: TasksActionTypes.GET_TASKS, payload: tasks });
+const setTotalAC = (total: number) => ({ type: TasksActionTypes.SET_TOTAL, payload: total });
 export const setCurrentPage = (currentPage: number) => ({
-  type: SET_CURRENT_PAGE,
-  currentPage,
+  type: TasksActionTypes.SET_CURRENT_PAGE,
+  payload: currentPage,
 });
-export const updateTaskText = (text: any) => ({ type: UPDATE_TEXT, text });
-export const addNewTaskAC = (task: any) => ({ type: ADD_NEW_TASK, task });
-const removeTaskAC = (taskId: string) => ({ type: REMOVE_TASK, taskId });
+export const updateTaskText 
+
+
+= (text: any) => ({ type: TasksActionTypes.UPDATE_TEXT, payload: text });
+export const addNewTaskAC = (task: any) => ({ type: TasksActionTypes.ADD_NEW_TASK, payload: task });
+const removeTaskAC = (taskId: string) => ({ type: TasksActionTypes.REMOVE_TASK, payload: taskId });
 
 export const getTasks =
   (currentPage: number, pageSize: number) => async (dispatch: any) => {
