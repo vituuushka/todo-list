@@ -51,6 +51,11 @@ const tasksReducer = (state: DefaultInitState = DEFAULT_INIT_STATE, action: Task
         ...state,
         tasks: state.tasks.filter((t: any) => t.id !== action.payload),
       };
+    case TasksActionTypes.TUGGLE_IS_FETCHING:
+      return {
+        ...state,
+        loading: action.payload
+      };
 
     default:
       return state;
@@ -69,15 +74,17 @@ export const updateTaskText
 = (text: any) => ({ type: TasksActionTypes.UPDATE_TEXT, payload: text });
 export const addNewTaskAC = (task: any) => ({ type: TasksActionTypes.ADD_NEW_TASK, payload: task });
 const removeTaskAC = (taskId: string) => ({ type: TasksActionTypes.REMOVE_TASK, payload: taskId });
+const toogleIsFetching = (loading: boolean) => ({type: TasksActionTypes.TUGGLE_IS_FETCHING, payload: loading})
 
 export const getTasks =
   (currentPage: number, pageSize: number) => async (dispatch: any) => {
-   
+   dispatch(toogleIsFetching(true))
     const data = await getTasksAPI(currentPage, pageSize);
-    
-    
+    dispatch(toogleIsFetching(false))
     dispatch(getTasksAC(data.data));
     dispatch(setTotalAC(data.total));
+    
+    
   };
 export const addNewTask = (newTaskText: string) => async (dispatch: any) => {
   const data = await addNewTaskAPI(newTaskText);

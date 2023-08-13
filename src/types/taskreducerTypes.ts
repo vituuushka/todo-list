@@ -5,7 +5,8 @@ export interface DefaultInitState {
     pageSize: number,
     loading: boolean,
     total: number,
-    newTaskText: string
+    newTaskText: string,
+    isDone: boolean
   }
   export enum TasksActionTypes {
    GET_TASKS = "GET_TASKS",
@@ -13,7 +14,9 @@ export interface DefaultInitState {
    SET_CURRENT_PAGE = "SET_CURRENT_PAGE",
    UPDATE_TEXT = "UPDATE_TEXT",
    ADD_NEW_TASK = "ADD_NEW_TASK",
-   REMOVE_TASK = "REMOVE_TASK"
+   REMOVE_TASK = "REMOVE_TASK",
+   TUGGLE_IS_FETCHING = "TUGGLE_IS_FETCHING",
+   
   }
   interface GetTasksAction {
     type: TasksActionTypes.GET_TASKS,
@@ -39,5 +42,9 @@ export interface DefaultInitState {
     type: TasksActionTypes.REMOVE_TASK,
     payload: TaskModel[]
   }
+  interface FetchTaskAction {
+    type: TasksActionTypes.TUGGLE_IS_FETCHING,
+    payload: boolean
+  }
   export type TasksAction = GetTasksAction|SetTotalAction|SetCurrentPageAction|
-  UpdateTextAction|AddNewTaskAction|RemoveTaskAction
+  UpdateTextAction|AddNewTaskAction|RemoveTaskAction|FetchTaskAction

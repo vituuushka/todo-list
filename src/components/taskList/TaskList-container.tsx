@@ -1,37 +1,44 @@
 import TaskList from "./TaskList"
 import React from "react"
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import { getTasks } from "../../react-redux/tasks-reducer"
 import { setCurrentPage, updateTaskText, addNewTask, removeTask } from "../../react-redux/tasks-reducer"
+import { useTypedSelector } from "../hooks/useTypedSelector"
+import { UseActions } from "../hooks/useActionCreators"
+import Preloader from "../preloader"
 const { useEffect, useState } = React
 
-const TaskListContainer = (props: any) => { 
+const TaskListContainer = () => { 
+    const state = useTypedSelector(state => state.tasksPage)
+    const {getTasks,setCurrentPage, updateTaskText, addNewTask, removeTask} = UseActions()
     useEffect (() => {
-       
-        props.getTasks(props.currentPage,props.pageSize)
+        getTasks(state.currentPage,state.pageSize)
     },[])
+    
     const onPageChanged = (pageNumber: number) => {
-        props.setCurrentPage(pageNumber)
-        props.getTasks(pageNumber,props.pageSize)
+        setCurrentPage(pageNumber)
+        getTasks(pageNumber,state.pageSize)
 
     }
-    
-    return <TaskList tasks={props.tasks} pageSize={props.pageSize} 
-    currentPage={props.currentPage} total={props.total}
-    onPageChanged={onPageChanged} newTaskText={props.newTaskText}
-    updateTaskText={props.updateTaskText} addNewTask={props.addNewTask} 
-    removeTask={props.removeTask} />
+    if(state.loading) {
+        return <Preloader/>
+    }
+    return <TaskList tasks={state.tasks} pageSize={state.pageSize} 
+    currentPage={state.currentPage} total={state.total}
+    onPageChanged={onPageChanged} newTaskText={state.newTaskText}
+    updateTaskText={updateTaskText} addNewTask={addNewTask} 
+    removeTask={removeTask} />
 }
 
-const mapStateToProps = (store: any) => {
+// const mapStateTostate = (store: any) => {
     
-return {
-    currentPage: store.tasksPage.currentPage,
-    pageSize: store.tasksPage.pageSize,
-    tasks: store.tasksPage.tasks,
-    total: store.tasksPage.total,
-    newTaskText: store.tasksPage.newTaskText
-}
-}
-
-export default connect(mapStateToProps, {getTasks,setCurrentPage, updateTaskText, addNewTask, removeTask})(TaskListContainer) 
+// return {
+//     currentPage: store.tasksPage.currentPage,
+//     pageSize: store.tasksPage.pageSize,
+//     tasks: store.tasksPage.tasks,
+//     total: store.tasksPage.total,
+//     newTaskText: store.tasksPage.newTaskText
+// }
+// }
+export default TaskListContainer
+// export default connect(mapStateTostate, {getTasks,setCurrentPage, updateTaskText, addNewTask, removeTask})(TaskListContainer) 

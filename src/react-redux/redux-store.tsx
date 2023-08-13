@@ -7,5 +7,5 @@ const reducers = combineReducers({
 tasksPage: tasksReducer
 })
 const store = createStore(reducers, applyMiddleware(thunk))
-
+export type RootState = ReturnType<typeof reducers>
 export default store
