@@ -63,3 +63,14 @@ export const getTasksAPI = async (currentPage: number, pageSize:number): Promise
         }
         
     }
+export const changeDoneStatusAPI = async(taskId: string, isDone:boolean) => {
+    try{
+        debugger
+        const response = await instance.put(`task/${taskId}`, { isDone })
+        return response.data
+    } catch (e) {
+        debugger
+        throw e
+    }
+    
+}

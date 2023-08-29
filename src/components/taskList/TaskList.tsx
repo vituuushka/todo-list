@@ -1,5 +1,4 @@
 import { ChangeEvent, useRef } from 'react'
-import { removeTask } from '../../react-redux/tasks-reducer'
 import Pagination from '../pagination/Pagination'
 import Task from './Task'
 import s from './TaskList.module.css'
@@ -19,11 +18,12 @@ const TaskList = (props: any) => {
       await props.onPageChanged(1)
     }
     const onRemoveTask = async  (taskId: string) => {
-      debugger
       await props.removeTask(taskId)
       await props.onPageChanged(1)
     }
-
+    const onChangeStatus = (taskId: string, isDone: boolean ) => {
+      props.changeDoneStatus(taskId, isDone)
+    }
     return <div>
         <nav>
     <div className="nav-wrapper">
@@ -35,8 +35,10 @@ const TaskList = (props: any) => {
     <button onClick={onAddNewTask} >ADD TASK</button>
   </div>
   <div className={s.tasks} >
-        {props.tasks?.map((t:any)=> <Task key={t.id} taskId={t.id} task={t} 
-        onRemoveTask={onRemoveTask} />
+        {props.tasks?.map((t:any)=> <Task key={t.id} taskId={t.id} task={t}
+        onRemoveTask={onRemoveTask} isDone={t.isDone} 
+        onChangeStatus={onChangeStatus} 
+        />
       )}
       </div>
       <Pagination onPageChanged={props.onPageChanged} pageSize={props.pageSize}

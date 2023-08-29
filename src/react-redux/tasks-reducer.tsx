@@ -2,6 +2,7 @@ import {
   addNewTaskAPI,
   getTasksAPI,
   removeTaskAPI,
+  changeDoneStatusAPI
 } from "../components/api/api";
 import { TaskModel } from "../types/task.model";
 import { DefaultInitState, TasksActionTypes,TasksAction } from "../types/taskreducerTypes";
@@ -49,14 +50,22 @@ const tasksReducer = (state: DefaultInitState = DEFAULT_INIT_STATE, action: Task
     case TasksActionTypes.REMOVE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter((t: any) => t.id !== action.payload),
+        tasks: state.tasks.filter((t) => t.id !== action.payload),
       };
     case TasksActionTypes.TUGGLE_IS_FETCHING:
       return {
         ...state,
         loading: action.payload
       };
+    case TasksActionTypes.CHANGE_DONE_STATUS:
+      const ind = state.tasks.findIndex((task)=> (task.id === action.payload.taskId))
 
+      const tasks = [...state.tasks]
+      tasks[ind] =  {... state.tasks[ind], isDone:action.payload.isDone }
+      return {
+        ...state,
+        tasks,
+      };
     default:
       return state;
   }
@@ -68,6 +77,7 @@ export const setCurrentPage = (currentPage: number) => ({
   type: TasksActionTypes.SET_CURRENT_PAGE,
   payload: currentPage,
 });
+const changeDoneStatusAC = (taskId: string, isDone: boolean) => ({type: TasksActionTypes.CHANGE_DONE_STATUS, payload: {taskId,isDone}})
 export const updateTaskText 
 
 
@@ -91,8 +101,14 @@ export const addNewTask = (newTaskText: string) => async (dispatch: any) => {
   dispatch (addNewTaskAC(data))
 };
 export const removeTask = (taskId: string) => async (dispatch: any) => {
-  debugger
-  const data = await removeTaskAPI(taskId);
-  dispatch(removeTaskAC(data.taskId));
+  await removeTaskAPI(taskId);
+  dispatch(removeTaskAC(taskId));
 };
+export const changeDoneStatus = (taskId: string, isDone: boolean) => async(dispatch: any) => {
+  const newDoneStatus = !isDone
+  const data = await changeDoneStatusAPI(taskId, newDoneStatus);
+dispatch(changeDoneStatusAC
+  (taskId,newDoneStatus))
+}
+
 export default tasksReducer;
