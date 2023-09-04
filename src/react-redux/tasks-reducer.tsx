@@ -6,7 +6,7 @@ import {
 } from "../components/api/api";
 import { TaskModel } from "../types/task.model";
 import { DefaultInitState, TasksActionTypes,TasksAction } from "../types/taskreducerTypes";
-
+import { updateTaskMessageAPI } from "../components/api/api";
 
 
 const DEFAULT_INIT_STATE: DefaultInitState = {
@@ -66,6 +66,13 @@ const tasksReducer = (state: DefaultInitState = DEFAULT_INIT_STATE, action: Task
         ...state,
         tasks,
       };
+      case TasksActionTypes.UPDATE_TASK_MESSAGE:
+        const index = state.tasks.findIndex((task)=> (task.id === action.payload.taskId))
+
+        const newTasks = [...state.tasks]
+        newTasks[index] =  {... state.tasks[index], message:action.payload.message }
+        return {...state, 
+          tasks: newTasks}
     default:
       return state;
   }
@@ -85,6 +92,8 @@ export const updateTaskText
 export const addNewTaskAC = (task: any) => ({ type: TasksActionTypes.ADD_NEW_TASK, payload: task });
 const removeTaskAC = (taskId: string) => ({ type: TasksActionTypes.REMOVE_TASK, payload: taskId });
 const toogleIsFetching = (loading: boolean) => ({type: TasksActionTypes.TUGGLE_IS_FETCHING, payload: loading})
+const updateTaskMessageAC = (taskId: string, message: string) => ({type: TasksActionTypes.UPDATE_TASK_MESSAGE, payload: {taskId, message}})
+
 
 export const getTasks =
   (currentPage: number, pageSize: number) => async (dispatch: any) => {
@@ -109,6 +118,10 @@ export const changeDoneStatus = (taskId: string, isDone: boolean) => async(dispa
   const data = await changeDoneStatusAPI(taskId, newDoneStatus);
 dispatch(changeDoneStatusAC
   (taskId,newDoneStatus))
+}
+export const updateTaskMessage = (taskId: string, message: string) => async(dispatch: any) => {
+const data = updateTaskMessageAPI(taskId, message)
+dispatch(updateTaskMessageAC(taskId, message))
 }
 
 export default tasksReducer;

@@ -37,7 +37,7 @@ const TaskList = (props: any) => {
   <div className={s.tasks} >
         {props.tasks?.map((t:any)=> <Task key={t.id} taskId={t.id} task={t}
         onRemoveTask={onRemoveTask} isDone={t.isDone} 
-        onChangeStatus={onChangeStatus} 
+        onChangeStatus={onChangeStatus} updateTaskMessage={props.updateTaskMessage}
         />
       )}
       </div>

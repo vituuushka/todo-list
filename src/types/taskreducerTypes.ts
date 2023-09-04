@@ -15,7 +15,8 @@ export interface DefaultInitState {
    ADD_NEW_TASK = "ADD_NEW_TASK",
    REMOVE_TASK = "REMOVE_TASK",
    TUGGLE_IS_FETCHING = "TUGGLE_IS_FETCHING",
-   CHANGE_DONE_STATUS = "CHANGE_DONE_STATUS"
+   CHANGE_DONE_STATUS = "CHANGE_DONE_STATUS",
+   UPDATE_TASK_MESSAGE = "UPDATE_TASK_MESSAGE"
   }
   interface GetTasksAction {
     type: TasksActionTypes.GET_TASKS,
@@ -49,5 +50,10 @@ export interface DefaultInitState {
     type: TasksActionTypes.CHANGE_DONE_STATUS,
     payload: {taskId:string, isDone: boolean}
   }
+  interface UpdateTaskMessageAction {
+    type: TasksActionTypes.UPDATE_TASK_MESSAGE,
+    payload: {taskId:string, message: string}
+  }
   export type TasksAction = GetTasksAction|SetTotalAction|SetCurrentPageAction|
-  UpdateTextAction|AddNewTaskAction|RemoveTaskAction|FetchTaskAction|ChangeDoneStatusAction
+  UpdateTextAction|AddNewTaskAction|RemoveTaskAction|FetchTaskAction|ChangeDoneStatusAction|
+  UpdateTaskMessageAction

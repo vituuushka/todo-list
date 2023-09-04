@@ -9,7 +9,8 @@ const { useEffect} = React
 
 const TaskListContainer = () => { 
     const state = useTypedSelector(state => state.tasksPage)
-    const {getTasks,setCurrentPage, updateTaskText, addNewTask, removeTask, changeDoneStatus} = UseActions()
+    const {getTasks,setCurrentPage, updateTaskText, 
+        addNewTask, removeTask, changeDoneStatus, updateTaskMessage} = UseActions()
     useEffect (() => {
         getTasks(state.currentPage,state.pageSize)
     },[])
@@ -30,6 +31,7 @@ const TaskListContainer = () => {
         addNewTask, 
         removeTask,
         changeDoneStatus,
+        updateTaskMessage,
         onPageChanged: onPageChanged,
         
     }
