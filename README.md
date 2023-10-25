@@ -1,3 +1,11 @@
+# Todo-list приложение
+Функционал приложения:
+- получение списка задач с backend
+- добавление новых задач
+- удаление задач
+- редактирование
+![Скриншот приложения](/images/screen.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

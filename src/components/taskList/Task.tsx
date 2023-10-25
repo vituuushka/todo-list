@@ -1,6 +1,7 @@
 import s from './Task.module.css'
 import { ChangeEvent, ChangeEventHandler, useState } from 'react'
 import { useRef } from 'react'
+import store from '../../react-redux/redux-store'
 
 const Task = (props:any) => {
 const [editMode, setEditMode] = useState(false)
@@ -12,6 +13,7 @@ const deactivateEditMode = (taskId: string, draftMessage: string) => {
     props.updateTaskMessage(taskId,draftMessage)
     setEditMode(false)
 }
+
 const taskValue = useRef(null)
 const onTextChange = (e: ChangeEvent<HTMLInputElement>) => {
 const text = e.target.value
