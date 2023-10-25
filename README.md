@@ -4,7 +4,8 @@
 - добавление новых задач
 - удаление задач
 - редактирование
-![Скриншот приложения](/images/screen.png)
+- выбор задачи выполненной
+![Скриншот приложения](/src/images/screen.png)
 
 # Getting Started with Create React App
 
